@@ -83,20 +83,20 @@ jobs:
 
       - name: Verify .app bundle
         run: |
-          if [ ! -d dist/Inspectron/Inspectron.app ]; then
+          if [ ! -d dist/Inspectron.app ]; then
             echo "ERROR: Inspectron.app was not built"
-            ls -la dist/Inspectron || true
+            ls -la dist || true
             exit 1
           fi
 
       - name: Code sign the app
         run: |
-          if [ -d dist/Inspectron/Inspectron.app ]; then
-            codesign -s - --deep --force dist/Inspectron/Inspectron.app
+          if [ -d dist/Inspectron.app ]; then
+            codesign -s - --deep --force dist/Inspectron.app
           fi
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: Inspectron-macos
-          path: dist/Inspectron/Inspectron.app
+          path: dist/Inspectron.app

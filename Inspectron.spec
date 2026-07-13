@@ -54,31 +54,21 @@ exe = EXE(
     icon=app_icon,
 )
 
+coll = COLLECT(
+        exe,
+        a.binaries,
+        a.zipfiles,
+        a.datas,
+        strip=False,
+        upx=True,
+        upx_exclude=[],
+        name='Inspectron'
+    )
+
 if platform.system() == 'Darwin':
     app = BUNDLE(
-        exe,
+        coll,
         name='Inspectron.app',
         icon=app_icon,
         bundle_identifier='com.inspectron.app',
-    )
-    coll = COLLECT(
-        app,
-        a.binaries,
-        a.zipfiles,
-        a.datas,
-        strip=False,
-        upx=True,
-        upx_exclude=[],
-        name='Inspectron'
-    )
-else:
-    coll = COLLECT(
-        exe,
-        a.binaries,
-        a.zipfiles,
-        a.datas,
-        strip=False,
-        upx=True,
-        upx_exclude=[],
-        name='Inspectron'
     )

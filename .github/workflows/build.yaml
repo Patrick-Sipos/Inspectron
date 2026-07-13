@@ -73,21 +73,30 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew update
-          brew install qt@5 || true
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pyinstaller
 
       - name: Build with PyInstaller (.spec) (macOS)
         run: |
           pyinstaller Inspectron.spec --clean
 
+      - name: Verify .app bundle
+        run: |
+          if [ ! -d dist/Inspectron/Inspectron.app ]; then
+            echo "ERROR: Inspectron.app was not built"
+            ls -la dist/Inspectron || true
+            exit 1
+          fi
+
       - name: Code sign the app
         run: |
-          codesign -s - --deep --force dist/Inspectron/Inspectron.app
+          if [ -d dist/Inspectron/Inspectron.app ]; then
+            codesign -s - --deep --force dist/Inspectron/Inspectron.app
+          fi
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: Inspectron-macos
-          path: dist/Inspectron/**
+          path: dist/Inspectron/Inspectron.app

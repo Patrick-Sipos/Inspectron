@@ -15,7 +15,7 @@ else:
 
 a = Analysis(
     ['main.py'],
-    pathex=[os.path.dirname(os.path.abspath(__file__))],
+    pathex=[os.path.abspath('.')],
     binaries=[],
     datas=[
         ('assets/*.png', 'assets'),
